@@ -12,3 +12,5 @@ iex --name a@127.0.0.1 -S mix
 iex --name b@127.0.0.1 -S mix
 iex --name c@127.0.0.1 -S mix
 ```
+
+[swarm]: https://github.com/bitwalker/swarm
