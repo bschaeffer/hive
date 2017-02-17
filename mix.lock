@@ -1,0 +1,6 @@
+%{"gen_state_machine": {:hex, :gen_state_machine, "2.0.0", "f3bc7d961e4cd9f37944b379137e25fd063feffc42800bed69197fd1b78b3151", [:mix], []},
+  "gproc": {:hex, :gproc, "0.6.1", "4579663e5677970758a05d8f65d13c3e9814ec707ad51d8dcef7294eda1a730c", [:rebar3], []},
+  "libcluster": {:hex, :libcluster, "2.0.4", "8b2451f0594b77e024e190285bf177fe8885da86748ca9f02ea3ba42cc2fc2b6", [:mix], [{:poison, "~> 3.0", [hex: :poison, optional: false]}]},
+  "libring": {:hex, :libring, "1.0.1", "bdf5fe67543b81048718bad10755ea17f9bdeda97f5485acc26ab0c495279bce", [:mix], []},
+  "poison": {:hex, :poison, "3.1.0", "d9eb636610e096f86f25d9a46f35a9facac35609a7591b3be3326e99a0484665", [:mix], []},
+  "swarm": {:hex, :swarm, "3.0.5", "c54ead44ca5f879959899f325f0e6b904e1a219faecb24ca4e55aad1fe38fecc", [:mix], [{:gen_state_machine, "~> 2.0", [hex: :gen_state_machine, optional: false]}, {:libring, "~> 1.0", [hex: :libring, optional: false]}]}}
