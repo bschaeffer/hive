@@ -1,9 +1,13 @@
 # Hive
 
-Example using [swarm][] to distribute processes across nodes, with failover
+Example using [swarm][] to distribute processes across nodes with failover
 monitoring.
 
-This example randomly starts and stops workers.
+When swarm registers a process on a node, and that process exits abnormally,
+and/or is restarted by its local supervisor, Swarm will not account for this
+process during topology changes. This uses a GenServer process to register
+and monitor Swarm registered processes, and when abnormal exits occur,
+re-registers the processes through Swarm again.
 
 ## Usage
 
