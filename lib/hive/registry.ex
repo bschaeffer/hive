@@ -18,6 +18,7 @@ defmodule Hive.Registry do
 
   def init(_) do
     Process.send_after(self(), :log_state, 500)
+    Process.flag(:trap_exit, true)
     {:ok, %{}}
   end
 
@@ -35,7 +36,7 @@ defmodule Hive.Registry do
       {:already_registered, pid} ->
         {:reply, {:ok, pid}, state}
       {:error, reason} ->
-        Logger.debug("Registry: error starting #{name} - #{inspect(reason)}")
+        Logger.error("[Registry] error starting #{name} - #{inspect(reason)}")
         {:reply, {:error, reason}, state}
     end
   end
@@ -43,7 +44,7 @@ defmodule Hive.Registry do
   def handle_info(:log_state, state) do
     total = Swarm.registered() |> Enum.count()
     local = state |> Map.values() |> Enum.count()
-    Logger.debug("[#{inspect(node)}] Totals:  Swarm/#{total} Local/#{local}")
+    Logger.debug("[Registry] Totals:  Swarm/#{total} Local/#{local}")
     Process.send_after(self(), :log_state, 500)
     {:noreply, state}
   end
@@ -56,23 +57,18 @@ defmodule Hive.Registry do
     {:noreply, Map.delete(state, ref)}
   end
 
-  def handle_info({:DOWN, ref, :process, _pid, {:shutdown, _}}, state) do
-    {:noreply, Map.delete(state, ref)}
-  end
-
   def handle_info({:DOWN, ref, :process, _pid, reason}, state) do
     case Map.get(state, ref) do
       nil ->
         {:noreply, state}
       name ->
-        Logger.debug("Registry: restarting #{name}")
-        {:ok, _pid} = start_via_swarm(name)
+        {:ok, _pid} = start_via_swarm(name, "restarting")
         {:noreply, Map.delete(state, ref)}
     end
   end
 
-  def start_via_swarm(name) do
-    Logger.debug("Registry: starting #{name}")
+  def start_via_swarm(name, reason \\ "starting") do
+    Logger.debug("[Registry] #{reason} #{name}")
     Swarm.register_name(name, Hive.Worker, :register, [name])
   end
 end
