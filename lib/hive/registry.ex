@@ -43,7 +43,7 @@ defmodule Hive.Registry do
 
   def handle_info(:log_state, state) do
     total = Swarm.registered() |> Enum.count()
-    local = state |> Map.values() |> Enum.count()
+    local = state |>  Enum.count()
     Logger.debug("[Registry] Totals:  Swarm/#{total} Local/#{local}")
     Process.send_after(self(), :log_state, 500)
     {:noreply, state}
